@@ -1,0 +1,255 @@
+/* ================================
+   FULL-PAGE VIEWS
+   Property detail / Post a property / Saved / My listings.
+   Each covers the whole viewport with its own header + back button,
+   instead of appearing as a modal dialog.
+   ================================ */
+
+.app-page {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  z-index: 150;
+  display: none;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.app-page.page-active {
+  display: flex;
+}
+
+body.page-open {
+  overflow: hidden;
+}
+
+.page-header {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.page-back {
+  background: none;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 4px;
+}
+
+.page-back:hover {
+  color: var(--green);
+}
+
+.page-title {
+  flex: 1;
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.page-icon-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--navy);
+  padding: 4px 8px;
+}
+
+.page-body {
+  padding: 24px 20px 60px;
+  width: min(1000px, 100%);
+  margin: 0 auto;
+  box-sizing: border-box;
+  flex: 1;
+}
+
+.page-body.narrow {
+  width: min(760px, 100%);
+}
+
+.page-count {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 18px;
+  display: block;
+}
+
+/* ---- Property detail page ---- */
+.detail-hero {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.detail-hero img {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  display: block;
+}
+
+.detail-body {
+  padding-top: 22px;
+}
+
+.detailfacts {
+  display: flex;
+  gap: 16px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 14px 0;
+  margin: 16px 0;
+  font-size: 13px;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+
+.detail-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+/* ---- My listings page: row list ---- */
+.listing-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+
+.listing-row img {
+  width: 76px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.listing-row-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 160px;
+}
+
+.listing-row-price {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.listing-row-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ---- Post property page: reuse .form-grid styling from styles.css ---- */
+.post-property-form {
+  max-width: 760px;
+}
+
+/* ---- Image upload (post property page) ---- */
+.image-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.image-upload-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.image-upload-dropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px dashed var(--line);
+  border-radius: 14px;
+  background: var(--soft);
+  min-height: 160px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.image-upload-dropzone:hover {
+  border-color: var(--green);
+  background: var(--mint);
+}
+
+.image-upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+  padding: 20px;
+}
+
+.image-upload-icon {
+  font-size: 22px;
+  color: var(--green);
+  margin-bottom: 4px;
+}
+
+.image-upload-preview {
+  width: 100%;
+  max-height: 260px;
+  object-fit: cover;
+  display: block;
+}
+
+.image-remove-btn,
+#image-remove-btn {
+  align-self: flex-start;
+}
+
+.image-url-fallback {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.image-url-fallback summary {
+  cursor: pointer;
+  color: var(--green);
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.image-url-fallback input {
+  margin-top: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Desktop offset to sit next to the persistent sidebar */
+@media (min-width: 901px) {
+  .app-page {
+    left: 280px;
+  }
+}
