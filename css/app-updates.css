@@ -1,0 +1,39 @@
+/* ================================
+   Small layout adjustments needed for the State + LGA fields
+   added to the hero search. Loaded after styles.css/responsive.css
+   so these rules take precedence for the same selectors.
+   ================================ */
+
+.hero-search {
+  grid-template-columns: 1fr 1fr 0.9fr 1fr auto;
+}
+
+@media (max-width: 900px) {
+  .hero-search {
+    grid-template-columns: 1fr 1fr;
+  }
+  .hero-search .search-btn {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero-search {
+    grid-template-columns: 1fr;
+  }
+}
+
+.filter-bar select:disabled,
+.search-field select:disabled {
+  background: var(--soft);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+/* Avoid a flash of every section showing at once before app.js hides the
+   non-home ones on load (only "home" is the default view). */
+#properties,
+#dashboard,
+#how-it-works {
+  display: none;
+}
