@@ -1,0 +1,208 @@
+/* ================================
+   APP SIDEBAR
+   Persistent left column on wide screens; a full, off-canvas page
+   (not a small slide-over sliver) on narrow screens.
+   ================================ */
+
+.app-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 280px;
+  background: #fff;
+  border-right: 1px solid var(--line);
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.28s ease;
+  overflow-y: auto;
+}
+
+.app-sidebar.sidebar-open {
+  transform: translateX(0);
+}
+
+.sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+
+.sidebar-close {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 26px;
+  line-height: 1;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.sidebar-close:hover {
+  color: var(--ink);
+}
+
+/* Logged-in user block, sits above the nav so Dashboard reads as "yours" */
+.sidebar-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  color: var(--ink);
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.sidebar-profile:hover {
+  background: var(--soft);
+}
+
+.sidebar-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--mint);
+  color: var(--green);
+  font-weight: 700;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.sidebar-profile-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.sidebar-profile-name {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-profile-email {
+  font-size: 0.78rem;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 12px;
+  gap: 4px;
+  flex: 1;
+}
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: 0.15s;
+}
+
+.sidebar-nav a:hover {
+  background: var(--soft);
+}
+
+.sidebar-nav a.active {
+  background: var(--mint);
+  color: var(--green);
+}
+
+.sidebar-nav-icon {
+  font-size: 18px;
+  width: 22px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.sidebar-bottom {
+  padding: 16px 20px 24px;
+  border-top: 1px solid var(--line);
+  flex-shrink: 0;
+}
+
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 14, 27, 0.45);
+  z-index: 250;
+  display: none;
+}
+
+.sidebar-backdrop.active {
+  display: block;
+}
+
+/* Topbar simplified: brand + hamburger (mobile) + quick action */
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+}
+
+.topbar-spacer {
+  flex: 1;
+}
+
+/* ================================
+   Desktop (901px+): persistent sidebar, offset content
+   ================================ */
+@media (min-width: 901px) {
+  .app-sidebar {
+    transform: translateX(0);
+    box-shadow: none;
+  }
+  .sidebar-backdrop {
+    display: none !important;
+  }
+  #menu-toggle-btn {
+    display: none !important;
+  }
+  body {
+    padding-left: 280px;
+  }
+}
+
+/* ================================
+   Mobile / tablet (900px and below): full-page off-canvas menu
+   ================================ */
+@media (max-width: 900px) {
+  .app-sidebar {
+    width: 100%;
+  }
+  .sidebar-close {
+    display: block;
+  }
+  #menu-toggle-btn {
+    display: flex;
+  }
+}
+
+body.nav-locked {
+  overflow: hidden;
+}
