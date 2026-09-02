@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NaijaHomes — a property discovery and listing marketplace prototype for Nigeria.">
+  <title>NaijaHomes — Find a place to call home</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/splash.css">
+  <link rel="stylesheet" href="css/app-updates.css">
+</head>
+<body>
+
+  <!-- ===== APP-ICON SPLASH SCREEN ===== -->
+  <div class="app-splash" id="app-splash">
+    <div class="splash-icon">N</div>
+    <div class="splash-name">Naija<span>Homes</span></div>
+    <div class="splash-tagline">Find a place to call home</div>
+  </div>
+
+  <!-- ===== TOAST CONTAINER ===== -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- ===== SIDEBAR ===== -->
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <aside class="app-sidebar" id="app-sidebar">
+    <div class="sidebar-top">
+      <a class="brand" href="#home" aria-label="NaijaHomes home">
+        <span class="brand-mark">N</span>
+        <span>Naija<span>Homes</span></span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close-btn" aria-label="Close menu">×</button>
+    </div>
+
+    <a class="sidebar-profile" href="#dashboard" id="sidebar-profile" aria-label="Go to your dashboard">
+      <span class="sidebar-avatar">IJ</span>
+      <span class="sidebar-profile-info">
+        <span class="sidebar-profile-name">Igba Joseph</span>
+        <span class="sidebar-profile-email">igba.joseph@naijahomes.com</span>
+      </span>
+    </a>
+
+    <nav class="sidebar-nav" id="sidebar-nav">
+      <a href="#home" data-nav-view="home"><span class="sidebar-nav-icon">⌂</span> Home</a>
+      <a href="#properties" data-nav-view="properties"><span class="sidebar-nav-icon">⌕</span> Find Property</a>
+      <a href="#/saved" data-nav-view="saved"><span class="sidebar-nav-icon">♡</span> Saved Properties</a>
+      <a href="#/my-listings" data-nav-view="my-listings"><span class="sidebar-nav-icon">▦</span> My Listings</a>
+      <a href="#how-it-works" data-nav-view="how-it-works"><span class="sidebar-nav-icon">?</span> How It Works</a>
+      <a href="#dashboard" data-nav-view="dashboard"><span class="sidebar-nav-icon">▤</span> Dashboard</a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <button class="btn btn-primary full" id="sidebar-post-btn">+ Post a Property</button>
+    </div>
+  </aside>
+
+  <!-- ===== TOPBAR ===== -->
+  <header class="site-header">
+    <div class="container topbar-inner">
+
+      <button class="mobile-menu-btn" id="menu-toggle-btn" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <a class="brand" href="#home" aria-label="NaijaHomes home">
+        <span class="brand-mark">N</span>
+        <span>Naija<span>Homes</span></span>
+      </a>
+
+      <div class="topbar-spacer"></div>
+
+      <button class="btn btn-primary btn-small" id="open-listing-btn">List a Property</button>
+
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="home">
+      <div class="hero-overlay"></div>
+
+      <div class="container hero-content">
+
+        <div class="hero-copy">
+          <span class="eyebrow">PROPERTY SEARCH, SIMPLIFIED</span>
+          <h1>Find a place you'll be happy to <span>call home.</span></h1>
+          <p>Discover homes for rent and properties for sale across every state and local government area in Nigeria, all in one simple marketplace.</p>
+        </div>
+
+        <!-- Hero Search Form -->
+        <form class="hero-search" id="hero-search-form">
+
+          <div class="search-field">
+            <label for="hero-purpose">Purpose</label>
+            <select id="hero-purpose">
+              <option value="all">Rent or Buy</option>
+              <option value="rent">Rent</option>
+              <option value="sale">Buy</option>
+            </select>
+          </div>
+
+          <div class="search-field">
+            <label for="hero-state">State</label>
+            <!-- ⚠️ Populated dynamically by JS from js/data/nigeria.js -->
+            <select id="hero-state"></select>
+          </div>
+
+          <div class="search-field">
+            <label for="hero-lga">LGA</label>
+            <!-- ⚠️ Populated dynamically by JS, depends on selected state -->
+            <select id="hero-lga" disabled></select>
+          </div>
+
+          <div class="search-field">
+            <label for="hero-type">Property type</label>
+            <select id="hero-type">
+              <option value="all">Any type</option>
+              <option value="apartment">Apartment</option>
+              <option value="house">House</option>
+              <option value="duplex">Duplex</option>
+              <option value="bungalow">Bungalow</option>
+              <option value="land">Land</option>
+            </select>
+          </div>
+
+          <button class="btn btn-primary search-btn" type="submit">Search</button>
+
+        </form>
+
+        <!-- Hero Stats -->
+        <div class="hero-stats">
+          <div>
+            <strong id="hero-property-count">0</strong>
+            <span>Properties</span>
+          </div>
+          <div>
+            <strong>37</strong>
+            <span>States &amp; FCT</span>
+          </div>
+          <div>
+            <strong>24/7</strong>
+            <span>Search access</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== PROPERTIES SECTION ===== -->
+    <section class="section featured-section" id="properties">
+      <div class="container">
+
+        <!-- Section Heading -->
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">EXPLORE HOMES</span>
+            <h2>Properties worth seeing</h2>
+            <p>Search, compare and save properties that match what you need.</p>
+          </div>
+          <button class="text-btn" id="show-all-btn">View all properties →</button>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar" id="filter-bar">
+
+          <div class="filter-search">
+            <span>⌕</span>
+            <input id="property-search" type="search" placeholder="Search by title, area or LGA">
+          </div>
+
+          <select id="filter-purpose">
+            <option value="all">All purposes</option>
+            <option value="rent">For rent</option>
+            <option value="sale">For sale</option>
+          </select>
+
+          <select id="filter-type">
+            <option value="all">All types</option>
+            <option value="apartment">Apartment</option>
+            <option value="house">House</option>
+            <option value="duplex">Duplex</option>
+            <option value="bungalow">Bungalow</option>
+            <option value="land">Land</option>
+          </select>
+
+          <!-- ⚠️ Populated dynamically by JS from js/data/nigeria.js -->
+          <select id="filter-state"></select>
+
+          <!-- ⚠️ Populated dynamically by JS, depends on selected state -->
+          <select id="filter-lga" disabled></select>
+
+          <select id="filter-sort">
+            <option value="newest">Newest</option>
+            <option value="price-low">Price: low to high</option>
+            <option value="price-high">Price: high to low</option>
+          </select>
+
+        </div>
+
+        <!-- Results Meta -->
+        <div class="results-meta">
+          <span id="results-count">0 properties</span>
+          <button class="text-btn" id="clear-filters-btn" data-clear>Clear filters</button>
+        </div>
+
+        <!-- Property Grid -->
+        <div class="property-grid" id="property-grid"></div>
+
+        <!-- Empty State -->
+        <div class="empty-state hidden" id="property-empty">
+          <div class="empty-icon">⌂</div>
+          <h3>No properties found</h3>
+          <p>Try changing your search or clearing some filters.</p>
+          <button class="btn btn-secondary" id="empty-clear-btn" data-clear>Clear filters</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== LOCATIONS SECTION ===== -->
+    <section class="section location-section" id="locations">
+      <div class="container">
+
+        <div class="section-heading compact">
+          <div>
+            <span class="eyebrow">POPULAR LOCATIONS</span>
+            <h2>Search by state</h2>
+            <p>All 36 states plus the FCT — pick one to see properties there.</p>
+          </div>
+        </div>
+
+        <!-- ⚠️ Populated dynamically by JS: all states + FCT -->
+        <div class="location-grid" id="location-grid"></div>
+
+      </div>
+    </section>
+
+    <!-- ===== HOW IT WORKS ===== -->
+    <section class="section how-section" id="how-it-works">
+      <div class="container">
+
+        <div class="section-heading center">
+          <span class="eyebrow">HOW IT WORKS</span>
+          <h2>A simpler way to find property</h2>
+          <p>From your first search to your next inquiry, the process is straightforward.</p>
+        </div>
+
+        <div class="steps-grid">
+
+          <article class="step-card">
+            <span class="step-number">01</span>
+            <div class="step-icon">⌕</div>
+            <h3>Search</h3>
+            <p>Choose rent or buy, pick a state and LGA, and filter properties by what matters to you.</p>
+          </article>
+
+          <article class="step-card">
+            <span class="step-number">02</span>
+            <div class="step-icon">♡</div>
+            <h3>Compare & save</h3>
+            <p>Open a property's own page and save your favourites so you can compare them later.</p>
+          </article>
+
+          <article class="step-card">
+            <span class="step-number">03</span>
+            <div class="step-icon">✉</div>
+            <h3>Make an inquiry</h3>
+            <p>Send an inquiry to the listed owner or agent when you find a property you like.</p>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== DASHBOARD ===== -->
+    <section class="section dashboard-section" id="dashboard">
+      <div class="container">
+
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">YOUR SPACE</span>
+            <h2>Dashboard</h2>
+            <p>Manage saved properties and listings in this browser.</p>
+          </div>
+          <button class="btn btn-primary" id="dashboard-list-btn">List a property</button>
+        </div>
+
+        <!-- Stats -->
+        <div class="dashboard-stats">
+          <div class="stat-card">
+            <span>Saved</span>
+            <strong id="saved-count">0</strong>
+          </div>
+          <div class="stat-card">
+            <span>My listings</span>
+            <strong id="listing-count">0</strong>
+          </div>
+          <div class="stat-card">
+            <span>Inquiries</span>
+            <strong id="inquiry-count">0</strong>
+          </div>
+          <div class="stat-card">
+            <span>Active</span>
+            <strong id="active-count">0</strong>
+          </div>
+        </div>
+
+        <!-- Panels -->
+        <div class="dashboard-panels">
+
+          <div class="dashboard-panel" id="saved-panel">
+            <div class="panel-heading">
+              <h3>Saved properties</h3>
+              <button class="text-btn" id="view-saved-btn">View all</button>
+            </div>
+            <div id="saved-list" class="mini-list"></div>
+          </div>
+
+          <div class="dashboard-panel">
+            <div class="panel-heading">
+              <h3>My listings</h3>
+              <button class="text-btn" id="view-listings-btn">View all</button>
+            </div>
+            <div id="my-listings" class="mini-list"></div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="section cta-section" id="cta-section">
+      <div class="container cta-card">
+
+        <div>
+          <span class="eyebrow">HAVE A PROPERTY?</span>
+          <h2>Put your property in front of the right people.</h2>
+          <p>Create a listing in minutes and manage it from your dashboard.</p>
+        </div>
+
+        <button class="btn btn-light" id="cta-list-btn">List your property</button>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+
+    <div class="container footer-grid">
+
+      <div>
+        <a class="brand footer-brand" href="#home">
+          <span class="brand-mark">N</span>
+          <span>Naija<span>Homes</span></span>
+        </a>
+        <p>A class project prototype for discovering, renting and buying property in Nigeria.</p>
+      </div>
+
+      <div>
+        <h4>Explore</h4>
+        <a href="#properties">Properties</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#dashboard">Dashboard</a>
+      </div>
+
+      <div>
+        <h4>Property</h4>
+        <button class="footer-link" id="footer-list-btn">List a property</button>
+        <button class="footer-link" id="footer-saved-btn">Saved properties</button>
+      </div>
+
+    </div>
+
+    <div class="container footer-bottom">
+      <span>© 2026 NaijaHomes Prototype</span>
+      <span>Built with HTML, CSS, JavaScript & localStorage</span>
+    </div>
+
+  </footer>
+
+  <!-- ===== FULL PAGES (replace what used to be modals) ===== -->
+
+  <!-- Property Detail Page -->
+  <section class="app-page" id="page-property-detail">
+    <div class="page-header">
+      <button class="page-back" data-page-back="properties">← Back</button>
+      <h2 class="page-title" id="property-detail-page-title">Property details</h2>
+    </div>
+    <div class="page-body" id="property-detail-page-content"></div>
+  </section>
+
+  <!-- Post a Property Page -->
+  <section class="app-page" id="page-post-property">
+    <div class="page-header">
+      <button class="page-back" data-page-back="my-listings">← Back</button>
+      <h2 class="page-title" id="post-property-page-title">Post a property</h2>
+    </div>
+    <div class="page-body narrow">
+      <p class="muted">Add a property to the marketplace. It will be saved in this browser.</p>
+
+      <form id="post-property-form" class="form-grid post-property-form">
+
+        <input type="hidden" id="post-id">
+
+        <div class="form-group full">
+          <label for="post-title">Property title *</label>
+          <input id="post-title" required maxlength="90" placeholder="e.g. Modern 3 Bedroom Apartment">
+        </div>
+
+        <div class="form-group">
+          <label for="post-purpose">Purpose *</label>
+          <select id="post-purpose" required>
+            <option value="rent">Rent</option>
+            <option value="sale">Sale</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="post-type">Property type *</label>
+          <select id="post-type" required>
+            <option value="apartment">Apartment</option>
+            <option value="house">House</option>
+            <option value="duplex">Duplex</option>
+            <option value="bungalow">Bungalow</option>
+            <option value="land">Land</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="post-price">Price (₦) *</label>
+          <input id="post-price" type="number" min="0" required placeholder="1500000">
+        </div>
+
+        <div class="form-group">
+          <label for="post-state">State *</label>
+          <!-- ⚠️ Populated dynamically by JS from js/data/nigeria.js -->
+          <select id="post-state" required></select>
+        </div>
+
+        <div class="form-group">
+          <label for="post-lga">Local Government Area *</label>
+          <!-- ⚠️ Populated dynamically by JS, depends on selected state -->
+          <select id="post-lga" required disabled></select>
+        </div>
+
+        <div class="form-group">
+          <label for="post-area">Area / neighbourhood *</label>
+          <input id="post-area" required placeholder="e.g. GRA">
+        </div>
+
+        <div class="form-group">
+          <label for="post-bedrooms">Bedrooms</label>
+          <input id="post-bedrooms" type="number" min="0" value="2">
+        </div>
+
+        <div class="form-group">
+          <label for="post-bathrooms">Bathrooms</label>
+          <input id="post-bathrooms" type="number" min="0" value="2">
+        </div>
+
+        <div class="form-group">
+          <label for="post-size">Size (m²)</label>
+          <input id="post-size" type="number" min="0" value="100">
+        </div>
+
+        <div class="form-group full">
+          <label for="post-image-file">Property photo</label>
+
+          <div class="image-upload">
+            <input type="file" id="post-image-file" class="image-upload-input" accept="image/png,image/jpeg,image/webp">
+            <label for="post-image-file" class="image-upload-dropzone" id="image-upload-dropzone">
+              <img id="post-image-preview" class="image-upload-preview hidden" alt="Property photo preview">
+              <span class="image-upload-placeholder" id="image-upload-placeholder">
+                <span class="image-upload-icon">⬆</span>
+                <span>Click to upload a photo</span>
+                <small>JPG, PNG or WEBP — a default photo is used if you skip this</small>
+              </span>
+            </label>
+            <button type="button" class="text-btn hidden" id="image-remove-btn">Remove photo</button>
+          </div>
+
+          <input type="hidden" id="post-image">
+
+          <details class="image-url-fallback">
+            <summary>Or paste an image URL instead</summary>
+            <input type="url" id="post-image-url" placeholder="https://example.com/image.jpg">
+          </details>
+        </div>
+
+        <div class="form-group full">
+          <label for="post-description">Description *</label>
+          <textarea id="post-description" required maxlength="600" rows="4" placeholder="Describe the property, area and important details..."></textarea>
+        </div>
+
+        <div class="form-group full">
+          <label>Amenities</label>
+          <div class="checkbox-grid">
+            <label><input type="checkbox" name="post-amenity" value="Parking"> Parking</label>
+            <label><input type="checkbox" name="post-amenity" value="Security"> Security</label>
+            <label><input type="checkbox" name="post-amenity" value="Water"> Water</label>
+            <label><input type="checkbox" name="post-amenity" value="Electricity"> Electricity</label>
+            <label><input type="checkbox" name="post-amenity" value="Fenced"> Fenced compound</label>
+            <label><input type="checkbox" name="post-amenity" value="Kitchen"> Modern kitchen</label>
+          </div>
+        </div>
+
+        <div class="form-actions full">
+          <button type="button" class="btn btn-secondary" data-page-back="my-listings">Cancel</button>
+          <button class="btn btn-primary" type="submit">Save listing</button>
+        </div>
+
+      </form>
+    </div>
+  </section>
+
+  <!-- Saved Properties Page -->
+  <section class="app-page" id="page-saved">
+    <div class="page-header">
+      <button class="page-back" data-page-back="dashboard">← Back</button>
+      <h2 class="page-title">Saved properties</h2>
+    </div>
+    <div class="page-body">
+      <span class="page-count" id="saved-page-count">0 saved properties</span>
+
+      <div class="property-grid" id="saved-page-grid"></div>
+
+      <div class="empty-state hidden" id="saved-page-empty">
+        <div class="empty-icon">♡</div>
+        <h3>Nothing saved yet</h3>
+        <p>Tap the heart icon on any listing to save it here for later.</p>
+        <button class="btn btn-primary" id="saved-page-browse-btn">Browse properties</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- My Listings Page -->
+  <section class="app-page" id="page-my-listings">
+    <div class="page-header">
+      <button class="page-back" data-page-back="dashboard">← Back</button>
+      <h2 class="page-title">My listings</h2>
+      <button class="page-icon-btn" id="my-listings-post-btn" aria-label="Post a property" title="Post a property">+</button>
+    </div>
+    <div class="page-body">
+      <span class="page-count" id="my-listings-page-count">0 listings</span>
+
+      <div id="my-listings-page-list"></div>
+
+      <div class="empty-state hidden" id="my-listings-page-empty">
+        <div class="empty-icon">▦</div>
+        <h3>No listings yet</h3>
+        <p>List a property to see it here.</p>
+        <button class="btn btn-primary" id="my-listings-page-post-btn">List a property</button>
+      </div>
+    </div>
+  </section>
+
+    <!-- ===== MODALS (kept small/short — confirmation & contact only) ===== -->
+
+  <!-- Inquiry Modal -->
+  <div class="modal-backdrop" id="inquiry-modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="inquiry-title">
+      <button class="modal-close" data-close-modal="inquiry-modal" aria-label="Close">×</button>
+
+      <div class="modal-header">
+        <span class="eyebrow">CONTACT</span>
+        <h2 id="inquiry-title">Send an inquiry</h2>
+        <p id="inquiry-property-name"></p>
+      </div>
+
+      <form id="inquiry-form" class="form-grid">
+
+        <input type="hidden" id="inquiry-property-id">
+
+        <div class="form-group full">
+          <label for="inquiry-name">Your name *</label>
+          <input id="inquiry-name" required maxlength="60">
+        </div>
+
+        <div class="form-group full">
+          <label for="inquiry-phone">Phone number *</label>
+          <input id="inquiry-phone" required maxlength="20" placeholder="080...">
+        </div>
+
+        <div class="form-group full">
+          <label for="inquiry-message">Message *</label>
+          <textarea id="inquiry-message" required maxlength="500" rows="4">Hello, I am interested in this property. Is it still available?</textarea>
+        </div>
+
+        <div class="form-actions full">
+          <button type="button" class="btn btn-secondary" data-close-modal="inquiry-modal">Cancel</button>
+          <button class="btn btn-primary" type="submit">Send inquiry</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Confirm Modal -->
+  <div class="modal-backdrop" id="confirm-modal">
+    <div class="modal modal-small">
+      <div class="modal-header">
+        <span class="eyebrow">CONFIRM ACTION</span>
+        <h2 id="confirm-title">Are you sure?</h2>
+        <p id="confirm-message"></p>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-secondary" id="confirm-cancel">Cancel</button>
+        <button class="btn btn-danger" id="confirm-ok">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script type="module" src="js/app.js"></script>
+
+</body>
+</html>
